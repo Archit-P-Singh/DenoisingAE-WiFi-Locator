@@ -1,0 +1,73 @@
+WARNING:tensorflow:From /Users/amarsingh/.pyenv/versions/3.10.13/lib/python3.10/site-packages/tensorflow/python/compat/v2_compat.py:98: disable_resource_variables (from tensorflow.python.ops.resource_variables_toggle) is deprecated and will be removed in a future version.
+Instructions for updating:
+non-resource variables are not supported in the long term
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1791489767.258962 2689249 mlir_graph_optimization_pass.cc:437] MLIR V1 optimization pass is not enabled
+Loading data...
+Starting Unsupervised Pre-training...
+Epoch: 0  Loss: 0.5717
+Epoch: 1  Loss: 0.3602
+Epoch: 2  Loss: 0.2759
+Epoch: 3  Loss: 0.2366
+Epoch: 4  Loss: 0.2175
+Epoch: 5  Loss: 0.1938
+Epoch: 6  Loss: 0.1849
+Epoch: 7  Loss: 0.1779
+Epoch: 8  Loss: 0.1685
+Epoch: 9  Loss: 0.1603
+Epoch: 10  Loss: 0.1619
+Epoch: 11  Loss: 0.1518
+Epoch: 12  Loss: 0.1445
+Epoch: 13  Loss: 0.1422
+Epoch: 14  Loss: 0.1402
+Epoch: 15  Loss: 0.1363
+Epoch: 16  Loss: 0.1398
+Epoch: 17  Loss: 0.1304
+Epoch: 18  Loss: 0.1240
+Epoch: 19  Loss: 0.1252
+Epoch: 20  Loss: 0.1233
+Epoch: 21  Loss: 0.1196
+Epoch: 22  Loss: 0.1209
+Epoch: 23  Loss: 0.1184
+Epoch: 24  Loss: 0.1151
+Epoch: 25  Loss: 0.1155
+Epoch: 26  Loss: 0.1131
+Epoch: 27  Loss: 0.1098
+Epoch: 28  Loss: 0.1113
+Epoch: 29  Loss: 0.1089
+Unsupervised pre-training finished...
+
+Starting Supervised Training...
+Epoch: 0  Loss: 47.7171  Training Accuracy: 0.7056  Validation Accuracy: 0.6980
+Epoch: 1  Loss: 17.6714  Training Accuracy: 0.7936  Validation Accuracy: 0.7915
+Epoch: 2  Loss: 8.2735  Training Accuracy: 0.8741  Validation Accuracy: 0.8673
+Epoch: 3  Loss: 5.0622  Training Accuracy: 0.9435  Validation Accuracy: 0.9426
+Epoch: 4  Loss: 1.9645  Training Accuracy: 0.8643  Validation Accuracy: 0.8538
+Epoch: 5  Loss: 2.7169  Training Accuracy: 0.9829  Validation Accuracy: 0.9813
+Epoch: 6  Loss: 0.9936  Training Accuracy: 0.9778  Validation Accuracy: 0.9757
+Epoch: 7  Loss: 0.9499  Training Accuracy: 0.9689  Validation Accuracy: 0.9648
+Epoch: 8  Loss: 0.9923  Training Accuracy: 0.9826  Validation Accuracy: 0.9805
+Epoch: 9  Loss: 0.9114  Training Accuracy: 0.8848  Validation Accuracy: 0.8786
+Epoch: 10  Loss: 4.1001  Training Accuracy: 0.9075  Validation Accuracy: 0.8988
+Epoch: 11  Loss: 1.5503  Training Accuracy: 0.9864  Validation Accuracy: 0.9848
+Epoch: 12  Loss: 0.8379  Training Accuracy: 0.9646  Validation Accuracy: 0.9571
+Epoch: 13  Loss: 1.6588  Training Accuracy: 0.9963  Validation Accuracy: 0.9941
+Epoch: 14  Loss: 1.3117  Training Accuracy: 0.9956  Validation Accuracy: 0.9936
+Epoch: 15  Loss: 0.3632  Training Accuracy: 0.9946  Validation Accuracy: 0.9934
+Epoch: 16  Loss: 0.2604  Training Accuracy: 0.9973  Validation Accuracy: 0.9955
+Epoch: 17  Loss: 0.2589  Training Accuracy: 0.9975  Validation Accuracy: 0.9965
+Epoch: 18  Loss: 0.3943  Training Accuracy: 0.9801  Validation Accuracy: 0.9786
+Epoch: 19  Loss: 0.5997  Training Accuracy: 0.9756  Validation Accuracy: 0.9742
+Epoch: 20  Loss: 1.2082  Training Accuracy: 0.9807  Validation Accuracy: 0.9778
+Epoch: 21  Loss: 0.6410  Training Accuracy: 0.9921  Validation Accuracy: 0.9907
+Epoch: 22  Loss: 0.5802  Training Accuracy: 0.9959  Validation Accuracy: 0.9946
+Epoch: 23  Loss: 0.5791  Training Accuracy: 0.9204  Validation Accuracy: 0.9118
+Epoch: 24  Loss: 0.6603  Training Accuracy: 0.9839  Validation Accuracy: 0.9840
+Epoch: 25  Loss: 1.3480  Training Accuracy: 0.9789  Validation Accuracy: 0.9739
+Epoch: 26  Loss: 0.5828  Training Accuracy: 0.9966  Validation Accuracy: 0.9948
+Epoch: 27  Loss: 0.4822  Training Accuracy: 0.9974  Validation Accuracy: 0.9963
+Epoch: 28  Loss: 0.1896  Training Accuracy: 0.9975  Validation Accuracy: 0.9963
+Epoch: 29  Loss: 0.4911  Training Accuracy: 0.9945  Validation Accuracy: 0.9921
+Supervised training finished...
+
+Testing Accuracy: 0.9001

@@ -11,9 +11,9 @@ def main():
     n_input = 520
     n_classes = train_y.shape[1]
     
-    # Updated parameters
-    learning_rate = 0.001
-    training_epochs = 30
+    # Updated parameters for stability
+    learning_rate = 0.0005
+    training_epochs = 60
     batch_size = 32
     total_batches = train_x.shape[0] // batch_size
     
@@ -63,7 +63,7 @@ def main():
                 offset = (b * batch_size) % (train_x.shape[0] - batch_size)
                 batch_x = train_x[offset:(offset + batch_size), :]
                 batch_y = train_y[offset:(offset + batch_size), :]
-                _, c = session.run([s_optimizer, s_cost_function], feed_dict={X: batch_x, Y : batch_y, keep_prob: 0.7})
+                _, c = session.run([s_optimizer, s_cost_function], feed_dict={X: batch_x, Y : batch_y, keep_prob: 0.8})
                 epoch_costs = np.append(epoch_costs, c)
             
             train_acc = session.run(accuracy, feed_dict={X: train_x, Y: train_y, keep_prob: 1.0})

@@ -8,8 +8,12 @@ def load_and_preprocess_data(train_path="../UJIndoorLoc/trainingData.csv", test_
     features = np.asarray(dataset.iloc[:,0:520])
     features[features == 100] = -110
     
+    # Calculate mean and std on training data
+    train_mean = features.mean()
+    train_std = features.std()
+    
     # Fix: use std instead of var for standard scaling
-    features = (features - features.mean()) / features.std()
+    features = (features - train_mean) / train_std
     
     labels = np.asarray(dataset["BUILDINGID"].map(str) + dataset["FLOOR"].map(str))
     labels = np.asarray(pd.get_dummies(labels))
@@ -28,8 +32,8 @@ def load_and_preprocess_data(train_path="../UJIndoorLoc/trainingData.csv", test_
     test_features = np.asarray(test_dataset.iloc[:,0:520])
     test_features[test_features == 100] = -110
     
-    # Fix: use std instead of var for standard scaling
-    test_features = (test_features - test_features.mean()) / test_features.std()
+    # Apply training mean and std to test set
+    test_features = (test_features - train_mean) / train_std
     
     test_labels = np.asarray(test_dataset["BUILDINGID"].map(str) + test_dataset["FLOOR"].map(str))
     test_labels = np.asarray(pd.get_dummies(test_labels))

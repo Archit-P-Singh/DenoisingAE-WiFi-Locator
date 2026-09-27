@@ -60,12 +60,10 @@ class AutoEncoderNN:
         return l3
 
     def dnn(self, x, keep_prob):
-        # Changed tanh to relu and added dropout
+        # Changed tanh to relu, testing without dropout as it hurts sparse features
         l1 = tf.nn.relu(tf.add(tf.matmul(x, self.dnn_weights_h1), self.dnn_biases_h1))
-        l1 = tf.nn.dropout(l1, rate=1 - keep_prob)
         
         l2 = tf.nn.relu(tf.add(tf.matmul(l1, self.dnn_weights_h2), self.dnn_biases_h2))
-        l2 = tf.nn.dropout(l2, rate=1 - keep_prob)
         
         out = tf.nn.softmax(tf.add(tf.matmul(l2, self.dnn_weights_out), self.dnn_biases_out))
         return out

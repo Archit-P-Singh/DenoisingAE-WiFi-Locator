@@ -14,12 +14,12 @@ This repository now contains two distinct implementations to demonstrate both th
 1. **Baseline Results**: 
    - **Training Accuracy**: ~99.1%
    - **Testing Accuracy**: ~91.4%
-   - *Analysis*: The baseline successfully replicates the paper's findings. However, a significant gap between training and testing accuracy (nearly 8%) indicates overfitting. Furthermore, the use of `.var()` scaling resulted in heavily compressed input values, which artificially inflated the apparent MSE loss values.
+   - *Analysis*: The baseline successfully replicates the paper's findings. However, a significant gap between training and testing accuracy (nearly 8%) indicates overfitting. Furthermore, the use of `.var()` scaling resulted in heavily compressed input values, which artificially deflated the apparent MSE loss values.
 
 2. **Optimized Results**:
-   - **Training Accuracy**: ~99.4%
-   - **Testing Accuracy**: ~90.0%
-   - *Analysis*: The optimized version converged much more erratically due to the higher learning rate paired with un-bounded `ReLU` activations. While Dropout successfully slowed down memorization in early epochs, the testing accuracy slightly dipped. Future iterations would strongly benefit from a Learning Rate Scheduler and Batch Normalization.
+   - **Training Accuracy**: ~99.7%
+   - **Testing Accuracy**: ~89.9%
+   - *Analysis*: We applied modern standard practices (`ReLU`, proper `.std()` scaling, and removal of Dropout due to the sparsity of WiFi signals). Interestingly, the "optimized" model slightly underperformed the baseline on the test set. This highlights a fascinating quirk of deep learning: the original authors' unconventional use of `.var()` scaling and `tanh` activations acted as a form of extreme mathematical regularization that happened to perfectly suit this highly sparse, noisy WiFi dataset. The modern un-bounded `ReLU` architecture made the network slightly more volatile, causing a tiny drop in generalization.
 
 ### Model Visualization
 

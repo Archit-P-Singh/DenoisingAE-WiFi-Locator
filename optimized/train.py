@@ -12,7 +12,7 @@ def main():
     n_classes = train_y.shape[1]
     
     # Updated parameters for stability
-    learning_rate = 0.0005
+    initial_learning_rate = 0.0005
     training_epochs = 60
     batch_size = 32
     total_batches = train_x.shape[0] // batch_size
@@ -30,11 +30,21 @@ def main():
     
     # Loss functions and optimizers
     us_cost_function = tf.reduce_mean(tf.pow(X - decoded, 2))
+    
     # Epsilon added to avoid log(0) issues which often crash TF during cross entropy
-    s_cost_function = -tf.reduce_sum(Y * tf.log(y_ + 1e-10))
+    cross_entropy = -tf.reduce_sum(Y * tf.log(y_ + 1e-10))
+    
+    # L2 Regularization to prevent overfitting
+    beta = 0.001
+    l2_loss = tf.nn.l2_loss(model.dnn_weights_h1) + tf.nn.l2_loss(model.dnn_weights_h2) + tf.nn.l2_loss(model.dnn_weights_out)
+    s_cost_function = cross_entropy + beta * l2_loss
+    
+    # Learning Rate Decay
+    global_step = tf.Variable(0, trainable=False)
+    learning_rate = tf.train.exponential_decay(initial_learning_rate, global_step, decay_steps=total_batches, decay_rate=0.95, staircase=True)
     
     us_optimizer = tf.train.AdamOptimizer(learning_rate).minimize(us_cost_function)
-    s_optimizer = tf.train.AdamOptimizer(learning_rate).minimize(s_cost_function)
+    s_optimizer = tf.train.AdamOptimizer(learning_rate).minimize(s_cost_function, global_step=global_step)
     
     correct_prediction = tf.equal(tf.argmax(y_, 1), tf.argmax(Y, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))

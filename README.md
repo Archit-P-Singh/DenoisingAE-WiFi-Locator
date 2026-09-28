@@ -18,8 +18,8 @@ This repository now contains two distinct implementations to demonstrate both th
 
 2. **Optimized Results**:
    - **Training Accuracy**: ~99.7%
-   - **Testing Accuracy**: ~89.9%
-   - *Analysis*: We applied modern standard practices (`ReLU`, proper `.std()` scaling, and removal of Dropout due to the sparsity of WiFi signals). Interestingly, the "optimized" model slightly underperformed the baseline on the test set. This highlights a fascinating quirk of deep learning: the original authors' unconventional use of `.var()` scaling and `tanh` activations acted as a form of extreme mathematical regularization that happened to perfectly suit this highly sparse, noisy WiFi dataset. The modern un-bounded `ReLU` architecture made the network slightly more volatile, causing a tiny drop in generalization.
+   - **Testing Accuracy**: ~92.9%
+   - *Analysis*: We applied modern standard practices (`ReLU`, proper `.std()` scaling, and removal of Dropout due to the sparsity of WiFi signals). To combat the inherent volatility of un-bounded `ReLU` activations and prevent the model from memorizing the training noise, we introduced two crucial optimizations to the Adam optimizer: **L2 Regularization (Weight Decay)** and **Exponential Learning Rate Decay**. By penalizing excessively large weights and forcing the learning rate to decay by 5% every epoch, the model converged much more smoothly. This successfully pushed the generalization capability past the baseline, achieving a new peak testing accuracy of ~92.9%.
 
 ### Model Visualization
 

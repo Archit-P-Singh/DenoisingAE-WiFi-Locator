@@ -24,6 +24,9 @@ def main():
     cv_val_scores = []
     cv_test_scores = []
     
+    # Store predictions from all 5 models to create an ensemble
+    ensemble_test_preds = np.zeros((test_features_raw.shape[0], n_classes))
+    
     for train_index, val_index in kf.split(features):
         print(f"\n================ Starting Fold {fold} ================")
         tf.reset_default_graph()
@@ -42,6 +45,7 @@ def main():
         total_batches = train_x.shape[0] // batch_size
         
         X = tf.placeholder(tf.float32, shape=[None, n_input])
+        X_clean = tf.placeholder(tf.float32, shape=[None, n_input])
         Y = tf.placeholder(tf.float32, [None, n_classes])
         keep_prob = tf.placeholder(tf.float32)
         
@@ -53,7 +57,8 @@ def main():
         y_ = model.dnn(encoded, keep_prob)
         
         # Loss functions and optimizers
-        us_cost_function = tf.reduce_mean(tf.pow(X - decoded, 2))
+        # Denoising target: compare decoded output to the ORIGINAL (clean) X, but we'll feed noisy X
+        us_cost_function = tf.reduce_mean(tf.pow(X_clean - decoded, 2))
         
         cross_entropy = -tf.reduce_sum(Y * tf.log(y_ + 1e-10))
         l2_loss = tf.nn.l2_loss(model.dnn_weights_h1) + tf.nn.l2_loss(model.dnn_weights_h2) + tf.nn.l2_loss(model.dnn_weights_out)
@@ -80,7 +85,11 @@ def main():
                 for b in range(total_batches):
                     offset = (b * batch_size) % (train_x.shape[0] - batch_size)
                     batch_x = train_x[offset:(offset + batch_size), :]
-                    _, c = session.run([us_optimizer, us_cost_function], feed_dict={X: batch_x})
+                    # Add Gaussian noise for Denoising Autoencoder (Data Augmentation)
+                    noise_factor = 0.2
+                    noisy_batch_x = batch_x + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=batch_x.shape)
+                    
+                    _, c = session.run([us_optimizer, us_cost_function], feed_dict={X: noisy_batch_x, X_clean: batch_x})
                     epoch_costs = np.append(epoch_costs, c)
                 # Print every 10 epochs to save space
                 if epoch % 10 == 0:
@@ -111,11 +120,20 @@ def main():
             cv_val_scores.append(final_val_acc)
             cv_test_scores.append(final_test_acc)
             
+            # Save probabilities for the ensemble
+            fold_test_preds = session.run(y_, feed_dict={X: test_features, keep_prob: 1.0})
+            ensemble_test_preds += fold_test_preds / 5.0
+            
         fold += 1
         
-    print("\n================ FINAL K-FOLD RESULTS ================")
+    # Calculate Ensemble Accuracy
+    ensemble_correct_prediction = np.equal(np.argmax(ensemble_test_preds, axis=1), np.argmax(test_labels, axis=1))
+    ensemble_accuracy = np.mean(ensemble_correct_prediction.astype(float))
+        
+    print("\n================ FINAL K-FOLD & ENSEMBLE RESULTS ================")
     print(f"Average Validation Accuracy across 5 folds: {np.mean(cv_val_scores):.4f} (Std: {np.std(cv_val_scores):.4f})")
     print(f"Average Testing Accuracy across 5 folds: {np.mean(cv_test_scores):.4f} (Std: {np.std(cv_test_scores):.4f})")
+    print(f"Ensemble Testing Accuracy (Averaged Softmax over 5 models): {ensemble_accuracy:.4f}")
 
 if __name__ == "__main__":
     main()

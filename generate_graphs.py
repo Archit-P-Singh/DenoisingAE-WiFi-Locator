@@ -2,32 +2,31 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-# Create directory for graphs if it doesn't exist
-os.makedirs("graphs", exist_ok=True)
+os.makedirs("results", exist_ok=True)
 
 # ---------------------------------------------------------
-# Graph 1: Effect on Convergence by Tuning Parameters (Adam)
+# Graph 1: Effect on Validation Accuracy by Tuning Parameters (Adam & L2) on Baseline
 # ---------------------------------------------------------
 plt.figure(figsize=(10, 6))
 epochs = np.arange(1, 31)
 
 try:
-    erratic_loss = np.load("bad_losses.npy")
-    smooth_loss = np.load("good_losses.npy")
+    baseline_acc = np.load("results/baseline_ablation_original.npy") * 100
+    optimized_acc = np.load("results/baseline_ablation_optimized.npy") * 100
 except FileNotFoundError:
-    print("Warning: genuine loss data not found. Run capture_convergence_data.py first.")
-    erratic_loss = np.zeros(30)
-    smooth_loss = np.zeros(30)
+    print("Warning: genuine ablation data not found. Run capture_baseline_ablation.py first.")
+    baseline_acc = np.zeros(30)
+    optimized_acc = np.zeros(30)
 
-plt.plot(epochs, erratic_loss, label="Static LR (0.001) - Erratic & Overfitting", color="red", linestyle="--")
-plt.plot(epochs, smooth_loss, label="Decayed LR (0.0005) + L2 - Smooth Convergence", color="blue", linewidth=2)
+plt.plot(epochs, baseline_acc, label="Original Baseline (Static LR 0.00001, No L2)", color="red", linestyle="--")
+plt.plot(epochs, optimized_acc, label="Regularized Baseline (Decayed LR + L2)", color="blue", linewidth=2)
 
-plt.title("Effect of Tuning Adam Optimizer & L2 Regularization on Convergence")
-plt.xlabel("Epochs")
-plt.ylabel("Supervised Training Loss")
-plt.legend()
+plt.title("Effect of L2 Regularization & Adam Decay on Baseline Validation Accuracy")
+plt.xlabel("Training Epochs")
+plt.ylabel("Validation Accuracy (%)")
+plt.legend(loc="lower right")
 plt.grid(True, linestyle=":", alpha=0.7)
-plt.savefig("graphs/parameter_tuning_convergence.png", dpi=300)
+plt.savefig("results/parameter_tuning_convergence.png", dpi=300)
 plt.close()
 
 # ---------------------------------------------------------
@@ -55,7 +54,7 @@ for bar in bars:
     plt.text(bar.get_x() + bar.get_width()/2, yval + 0.2, f"{yval:.2f}%", ha='center', va='bottom', fontweight='bold')
 
 plt.tight_layout()
-plt.savefig("graphs/model_progression_comparison.png", dpi=300)
+plt.savefig("results/model_progression_comparison.png", dpi=300)
 plt.close()
 
 # ---------------------------------------------------------
@@ -83,7 +82,7 @@ for i, (v, t) in enumerate(zip(val_accuracies, test_accuracies)):
     plt.text(folds[i] + width/2, t + 0.1, f"{t:.2f}%", ha='center', va='bottom', fontsize=9)
 
 plt.tight_layout()
-plt.savefig("graphs/kfold_validation_outcomes.png", dpi=300)
+plt.savefig("results/kfold_validation_outcomes.png", dpi=300)
 plt.close()
 
 print("Graphs successfully generated in the 'graphs' folder.")

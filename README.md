@@ -6,8 +6,8 @@ Tensorflow implementation of the model discussed in the following paper: [Low-ef
 
 This repository contains two distinct implementations to demonstrate both the exact replication of the original paper and an optimized version featuring modern architectural improvements.
 
-- **`baseline/`**: Contains the strict implementation based on the original research methodology. It utilizes `tanh` activations across all layers, `.var()` variance scaling for input standardization, and omits dropout. 
-- **`optimized/`**: Contains an improved architecture incorporating contemporary deep learning practices. Modifications include substituting `tanh` with `ReLU` to alleviate the vanishing gradient problem, replacing the variance-based scaling with Standard Deviation `.std()` scaling, and applying a linear activation on the final Decoder layer to accommodate unbounded output features.
+- **`baseline/`**: I implemented a strict version based on the original research methodology. I utilized `tanh` activations across all layers, `.var()` variance scaling for input standardization, and omitted dropout. 
+- **`optimized/`**: I created an improved architecture incorporating contemporary deep learning practices. I substituted `tanh` with `ReLU` to alleviate the vanishing gradient problem, replaced the variance-based scaling with Standard Deviation `.std()` scaling, and applied a linear activation on the final Decoder layer to accommodate unbounded output features.
 
 ## Methodology & Empirical Findings
 
@@ -21,7 +21,7 @@ The following table summarizes the performance improvement from the original met
 | **Optimized Architecture** | `ReLU` activations, `.std()` scaling, L2 Regularization, Learning Rate Decay | ~99.7% | **92.85% (± 0.53%)** |
 | **Ensemble Model** | Softmax aggregation across 5 K-Fold models | - | **92.98%** |
 
-*Analysis*: The baseline successfully replicates the original paper's findings. However, a significant generalization gap (nearly 8%) suggests considerable overfitting, and `.var()` scaling artificially deflated the Mean Squared Error (MSE). I applied modern standard practices, notably `ReLU` and proper `.std()` scaling. To combat the inherent volatility of unbounded `ReLU` activations and prevent the model from memorizing training noise, I introduced **L2 Regularization (Weight Decay)** and **Exponential Learning Rate Decay** to the Adam optimizer, achieving a demonstrably smoother convergence profile.
+*Analysis*: I successfully replicated the original paper's findings using the baseline. However, I observed a significant generalization gap (nearly 8%) suggesting considerable overfitting, and found that `.var()` scaling artificially deflated the Mean Squared Error (MSE). I applied modern standard practices, notably `ReLU` and proper `.std()` scaling. To combat the inherent volatility of unbounded `ReLU` activations and prevent the model from memorizing training noise, I introduced **L2 Regularization (Weight Decay)** and **Exponential Learning Rate Decay** to the Adam optimizer, achieving a demonstrably smoother convergence profile.
 
 ![Convergence Stability](results/parameter_tuning_convergence.png)
 
@@ -48,13 +48,13 @@ As illustrated in the progression chart below, this completely eclipses the orig
 
 ## Model Visualization
 
-The optimized model architectures have been visually mapped. The diagrams below detail the structural layout of the Denoising Autoencoder and the Ensembled Classifier.
+I visually mapped the baseline model architectures based on the original paper. The diagrams below detail the structural layout of the Autoencoder and the Neural Network Classifier.
 
-### Denoising Autoencoder Structure
-![Denoising Autoencoder](optimized/AE_optimized.png)
+### Baseline Autoencoder Structure
+![Autoencoder](baseline/AE.png)
 
-### Optimized Neural Network Classifier
-![Neural Network Classifier](optimized/NN_optimized.png)
+### Baseline Neural Network Classifier
+![Neural Network Classifier](baseline/NN.png)
 
 ## Tools Required
 

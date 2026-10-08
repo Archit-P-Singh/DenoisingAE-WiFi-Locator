@@ -24,7 +24,7 @@ decoded = Dense(256, activation='relu', name="Decoder_Hidden_2")(decoded)
 decoded = Dense(520, activation='linear', name="Reconstructed_Clean_Output")(decoded)
 
 autoencoder = Model(inputs=ae_input, outputs=decoded, name="Denoising_Autoencoder")
-plot_model(autoencoder, to_file="graphs/Denoising_AE_Structure.png", show_shapes=True, show_layer_names=True, dpi=300)
+plot_model(autoencoder, to_file="graphs/Denoising_AE_Structure.png", show_shapes=True, show_layer_names=False, rankdir='LR', dpi=300)
 
 # ---------------------------------------------------------
 # 2. Final Ensembled Classifier NN Structure
@@ -37,6 +37,6 @@ dense2 = Dense(128, activation='relu', name="Classifier_Hidden_2")(dense1)
 output = Dense(118, activation='softmax', name="Building_Floor_Prediction")(dense2)
 
 classifier = Model(inputs=nn_input, outputs=output, name="Optimized_Neural_Network")
-plot_model(classifier, to_file="graphs/Optimized_NN_Structure.png", show_shapes=True, show_layer_names=True, dpi=300)
+plot_model(classifier, to_file="graphs/Optimized_NN_Structure.png", show_shapes=True, show_layer_names=False, rankdir='LR', dpi=300)
 
 print("Model structure graphs successfully generated in the 'graphs' folder.")

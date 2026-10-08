@@ -9,12 +9,15 @@ os.makedirs("graphs", exist_ok=True)
 # Graph 1: Effect on Convergence by Tuning Parameters (Adam)
 # ---------------------------------------------------------
 plt.figure(figsize=(10, 6))
-epochs = np.arange(1, 41)
+epochs = np.arange(1, 31)
 
-# Mocking erratic loss of LR=0.001 without decay
-erratic_loss = 2.0 * np.exp(-epochs/5) + 0.5 * np.random.rand(40) + 0.2
-# Mocking smooth loss of LR=0.0005 with exponential decay and L2
-smooth_loss = 2.0 * np.exp(-epochs/8) + 0.1 * np.random.rand(40) + 0.1
+try:
+    erratic_loss = np.load("bad_losses.npy")
+    smooth_loss = np.load("good_losses.npy")
+except FileNotFoundError:
+    print("Warning: genuine loss data not found. Run capture_convergence_data.py first.")
+    erratic_loss = np.zeros(30)
+    smooth_loss = np.zeros(30)
 
 plt.plot(epochs, erratic_loss, label="Static LR (0.001) - Erratic & Overfitting", color="red", linestyle="--")
 plt.plot(epochs, smooth_loss, label="Decayed LR (0.0005) + L2 - Smooth Convergence", color="blue", linewidth=2)

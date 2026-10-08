@@ -1,0 +1,76 @@
+WARNING:tensorflow:From /Users/amarsingh/.pyenv/versions/3.10.13/lib/python3.10/site-packages/tensorflow/python/compat/v2_compat.py:98: disable_resource_variables (from tensorflow.python.ops.resource_variables_toggle) is deprecated and will be removed in a future version.
+Instructions for updating:
+non-resource variables are not supported in the long term
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1791491453.394570 2704165 mlir_graph_optimization_pass.cc:437] MLIR V1 optimization pass is not enabled
+Loading data...
+
+================ Starting Fold 1 ================
+Starting Unsupervised Pre-training...
+Epoch: 0  Loss: 0.6163
+Epoch: 10  Loss: 0.1535
+Epoch: 20  Loss: 0.1143
+Epoch: 30  Loss: 0.0962
+Starting Supervised Training...
+Epoch: 0  Loss: 41.0238  Training Acc: 0.5988  Val Acc: 0.6033
+Epoch: 10  Loss: 0.4280  Training Acc: 0.9926  Val Acc: 0.9900
+Epoch: 20  Loss: 0.2520  Training Acc: 0.9974  Val Acc: 0.9950
+Epoch: 30  Loss: 0.1998  Training Acc: 0.9977  Val Acc: 0.9957
+Fold 1 Finished. Validation Accuracy: 0.9957, Testing Accuracy: 0.9271
+
+================ Starting Fold 2 ================
+Starting Unsupervised Pre-training...
+Epoch: 0  Loss: 0.6353
+Epoch: 10  Loss: 0.1593
+Epoch: 20  Loss: 0.1223
+Epoch: 30  Loss: 0.1061
+Starting Supervised Training...
+Epoch: 0  Loss: 35.3095  Training Acc: 0.6247  Val Acc: 0.6204
+Epoch: 10  Loss: 0.6585  Training Acc: 0.9628  Val Acc: 0.9596
+Epoch: 20  Loss: 0.2228  Training Acc: 0.9978  Val Acc: 0.9952
+Epoch: 30  Loss: 0.1855  Training Acc: 0.9982  Val Acc: 0.9940
+Fold 2 Finished. Validation Accuracy: 0.9947, Testing Accuracy: 0.9289
+
+================ Starting Fold 3 ================
+Starting Unsupervised Pre-training...
+Epoch: 0  Loss: 0.6288
+Epoch: 10  Loss: 0.1567
+Epoch: 20  Loss: 0.1185
+Epoch: 30  Loss: 0.1018
+Starting Supervised Training...
+Epoch: 0  Loss: 35.4237  Training Acc: 0.6543  Val Acc: 0.6453
+Epoch: 10  Loss: 0.4047  Training Acc: 0.9944  Val Acc: 0.9920
+Epoch: 20  Loss: 0.2602  Training Acc: 0.9978  Val Acc: 0.9962
+Epoch: 30  Loss: 0.2105  Training Acc: 0.9979  Val Acc: 0.9967
+Fold 3 Finished. Validation Accuracy: 0.9965, Testing Accuracy: 0.9271
+
+================ Starting Fold 4 ================
+Starting Unsupervised Pre-training...
+Epoch: 0  Loss: 0.6311
+Epoch: 10  Loss: 0.1574
+Epoch: 20  Loss: 0.1167
+Epoch: 30  Loss: 0.0999
+Starting Supervised Training...
+Epoch: 0  Loss: 41.1267  Training Acc: 0.4789  Val Acc: 0.4648
+Epoch: 10  Loss: 2.8066  Training Acc: 0.9939  Val Acc: 0.9892
+Epoch: 20  Loss: 0.2185  Training Acc: 0.9980  Val Acc: 0.9955
+Epoch: 30  Loss: 0.1828  Training Acc: 0.9981  Val Acc: 0.9965
+Fold 4 Finished. Validation Accuracy: 0.9960, Testing Accuracy: 0.9379
+
+================ Starting Fold 5 ================
+Starting Unsupervised Pre-training...
+Epoch: 0  Loss: 0.6152
+Epoch: 10  Loss: 0.1525
+Epoch: 20  Loss: 0.1140
+Epoch: 30  Loss: 0.0986
+Starting Supervised Training...
+Epoch: 0  Loss: 38.8668  Training Acc: 0.6480  Val Acc: 0.6571
+Epoch: 10  Loss: 0.3381  Training Acc: 0.9961  Val Acc: 0.9942
+Epoch: 20  Loss: 0.2413  Training Acc: 0.9979  Val Acc: 0.9965
+Epoch: 30  Loss: 0.1995  Training Acc: 0.9979  Val Acc: 0.9967
+Fold 5 Finished. Validation Accuracy: 0.9967, Testing Accuracy: 0.9217
+
+================ FINAL K-FOLD & ENSEMBLE RESULTS ================
+Average Validation Accuracy across 5 folds: 0.9959 (Std: 0.0007)
+Average Testing Accuracy across 5 folds: 0.9285 (Std: 0.0053)
+Ensemble Testing Accuracy (Averaged Softmax over 5 models): 0.9298

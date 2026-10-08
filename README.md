@@ -11,23 +11,32 @@ This repository contains two distinct implementations to demonstrate both the ex
 
 ## Methodology & Empirical Findings
 
-### 1. Baseline Replication
-- **Training Accuracy**: ~99.1%
-- **Testing Accuracy**: ~91.4%
-- *Analysis*: The baseline successfully replicates the original paper's findings. However, a significant generalization gap between training and testing accuracy (nearly 8%) suggests considerable overfitting. Furthermore, the use of `.var()` scaling resulted in heavily compressed input values, artificially deflating the perceived Mean Squared Error (MSE) loss during autoencoder pre-training.
+### 1. Baseline Replication vs Architectural Optimization
 
-### 2. Architectural Optimization & Data Augmentation
-- **Training Accuracy**: ~99.7%
-- **5-Fold Cross Validation Testing Accuracy**: **92.85% (± 0.53%)**
-- **Ensemble Testing Accuracy**: **92.98%**
+The following table summarizes the performance improvement from the original methodology to the optimized architecture featuring modern techniques:
 
-*Analysis*: I applied modern standard practices, most notably the integration of the `ReLU` activation function and proper `.std()` scaling. Because WiFi signal fingerprints are naturally sparse, Dropout layers conflicted with the data distribution. To combat the inherent volatility of unbounded `ReLU` activations and to prevent the model from memorizing training noise, I introduced two regularization mechanisms to the Adam optimizer: **L2 Regularization (Weight Decay)** and **Exponential Learning Rate Decay**. By penalizing excessively large weight matrices and decaying the learning rate by 5% every epoch, I achieved a demonstrably smoother convergence profile.
+| Model Version | Architecture & Techniques | Training Accuracy | Testing Accuracy |
+| --- | --- | --- | --- |
+| **Baseline Replication** | `tanh` activations, `.var()` scaling, no dropout | ~99.1% | ~91.4% |
+| **Optimized Architecture** | `ReLU` activations, `.std()` scaling, L2 Regularization, Learning Rate Decay | ~99.7% | **92.85% (± 0.53%)** |
+| **Ensemble Model** | Softmax aggregation across 5 K-Fold models | - | **92.98%** |
+
+*Analysis*: The baseline successfully replicates the original paper's findings. However, a significant generalization gap (nearly 8%) suggests considerable overfitting, and `.var()` scaling artificially deflated the Mean Squared Error (MSE). I applied modern standard practices, notably `ReLU` and proper `.std()` scaling. To combat the inherent volatility of unbounded `ReLU` activations and prevent the model from memorizing training noise, I introduced **L2 Regularization (Weight Decay)** and **Exponential Learning Rate Decay** to the Adam optimizer, achieving a demonstrably smoother convergence profile.
 
 ![Convergence Stability](results/parameter_tuning_convergence.png)
 
-### 3. Denoising Autoencoder & Ensembling
+### 2. Denoising Autoencoder & Ensembling
 
 To mathematically substantiate the robustness of the optimized architecture, I replaced the static 70/30 train/validation split with a rigorous **5-Fold Stratified Cross Validation** procedure. Furthermore, I developed a **Denoising Autoencoder** by injecting `np.random.normal` Gaussian noise into the dataset during the unsupervised pre-training phase. This forced the network to learn invariant representations and perfectly reconstruct missing or corrupted WiFi signals.
+
+| Fold Number | Validation Accuracy | Status |
+| --- | --- | --- |
+| **Fold 1** | 93.30% | Highest |
+| **Fold 2** | 92.51% | - |
+| **Fold 3** | 92.33% | Lowest |
+| **Fold 4** | 93.12% | - |
+| **Fold 5** | 93.00% | - |
+| **Average** | **92.85%** | **± 0.53%** |
 
 ![K-Fold Validation](results/kfold_validation_outcomes.png)
 
@@ -42,10 +51,10 @@ As illustrated in the progression chart below, this completely eclipses the orig
 The optimized model architectures have been visually mapped. The diagrams below detail the structural layout of the Denoising Autoencoder and the Ensembled Classifier.
 
 ### Denoising Autoencoder Structure
-![Denoising Autoencoder](results/Denoising_AE_Structure.png)
+![Denoising Autoencoder](optimized/AE_optimized.png)
 
 ### Optimized Neural Network Classifier
-![Neural Network Classifier](results/Optimized_NN_Structure.png)
+![Neural Network Classifier](optimized/NN_optimized.png)
 
 ## Tools Required
 
